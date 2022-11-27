@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-mognoDB_pass = os.getenv(mongoDB_pass)
+mognoDB_pass = os.getenv('mongoDB_pass')
 
 # Create connection
 client = pymongo.MongoClient(
@@ -18,7 +18,7 @@ print(client)
 
 DATA_FILE_PATH = '/config/workspace/aps_failure_training_set1.csv'
 DATABASE_NAME = 'aps'
-COLLECTION_NAME = 'sesor'
+COLLECTION_NAME = 'sensor'
 
 db = client[DATABASE_NAME] #database
 col = db[COLLECTION_NAME]  #collection

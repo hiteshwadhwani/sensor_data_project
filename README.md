@@ -17,3 +17,4 @@ python main.py
 ### Data pipeline
 ![Data pipeline](./img/pipeline.png)
 
+### input - configuration, output - artifact
