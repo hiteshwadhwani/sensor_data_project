@@ -13,3 +13,7 @@ pip install -r requirements.txt
 ```bash
 python main.py
 ```
+
+### Data pipeline
+![Data pipeline](./img/pipeline.png)
+
