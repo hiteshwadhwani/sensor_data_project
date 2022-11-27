@@ -5,14 +5,19 @@ from datetime import datetime
 
 FILE_NAME='sensor.csv'
 TEST_FILE_NAME='test.csv'
-TRAIN_FILE_PATH-'train.csv'
+TRAIN_FILE_PATH='train.csv'
 
-class TrainingPipelineConfig:
+class TrainingPipelineConfig:    
     def __init__(self):
         try:
-            self.artifact_dir = os.path.join(os.getcwd(), 'artifact', f"{datetime().now().strftime('%m:%d:%Y__%H:%M:%S')}")
+            self.artifact_dir = os.path.join(os.getcwd(),"artifact",f"{datetime.now().strftime('%m:%d:%Y__%H:%M:%S')}")
         except Exception as e:
             SensorException(e, sys)
+    def to_dict(self,):
+        try:
+            return self.__dict__
+        except Exception as e:
+            raise SensorException(e, sys)
 
 class DataIngestionConfig:
     def __init__(self,training_pipeline_config:TrainingPipelineConfig):
@@ -26,6 +31,12 @@ class DataIngestionConfig:
             self.test_size = 0.2
         except Exception as e:
             SensorException(e, sys)
+
+    def to_dict(self,):
+        try:
+            return self.__dict__
+        except Exception as e:
+            raise SensorException(e, sys)
 
 
 class DataValidationConfig:...
