@@ -7,6 +7,8 @@ FILE_NAME='sensor.csv'
 TEST_FILE_NAME='test.csv'
 TRAIN_FILE_PATH='train.csv'
 MODEL_FILE_NAME = "model.pkl"
+TRANSFORM_FILE_NAME = "transform.pkl"
+ENCODER_FILE_NAME = "taget_encoder.pkl"
 
 
 class TrainingPipelineConfig:    
@@ -62,10 +64,10 @@ class DataTransformationConfig:
     def __init__(self, training_pipeline_config:TrainingPipelineConfig):
         try:
             self.data_transformation_dir = os.path.join(training_pipeline_config.artifact_dir, 'data_transformation')
-            self.tranformed_obj_path = os.path.join(self.data_transformation_dir,'transformer', 'transform.pkl')
+            self.tranformed_obj_path = os.path.join(self.data_transformation_dir,'transformer', TRANSFORM_FILE_NAME)
             self.transformed_train_path = os.path.join(self.data_transformation_dir, 'transformed', 'train.npz')
             self.transformed_test_path = os.path.join(self.data_transformation_dir, 'transformed', 'test.npz')
-            self.target_encoder_path = os.path.join(self.data_transformation_dir, 'taget_encoder', 'taget_encoder.pkl')
+            self.target_encoder_path = os.path.join(self.data_transformation_dir, 'taget_encoder', ENCODER_FILE_NAME)
         except Exception as e:
             raise SensorException(e, sys)
 
@@ -82,5 +84,9 @@ class ModelTrainerConfig:
 
 
 
-class ModelEvaluationConfig:...
+class ModelEvaluationConfig:
+    def __init__(self):
+        self.change_threshold = 0.01
+
+        
 class ModelPusherConfig:...
