@@ -15,5 +15,5 @@ class EnvironmentVariables:
 env_var = EnvironmentVariables()
 
 # Create connection
-client = pymongo.MongoClient(MONGO_DB_URL, tlsCAFile=certifi.where())
+client = pymongo.MongoClient(env_var.MONGO_DB_URL, tlsCAFile=certifi.where())
 TARGET_COLUMN = 'class'
