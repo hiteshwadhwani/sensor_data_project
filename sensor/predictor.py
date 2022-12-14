@@ -71,13 +71,13 @@ class ModelResolver:
 
     def get_latest_save_tranformer_path(self):
         try:
-            return os.path.join(self.get_latest_save_dir_path, self.tranform_dir_name, TRANSFORM_FILE_NAME)
+            return os.path.join(self.get_latest_save_dir_path(), self.tranform_dir_name, TRANSFORM_FILE_NAME)
         except Exception as e:
             raise SensorException(e, sys)
 
     def get_latest_save_encoder_path(self):
         try:
-            return os.path.join(self.get_latest_save_dir_path, self.target_encoder_dir_name, ENCODER_FILE_NAME)
+            return os.path.join(self.get_latest_save_dir_path(), self.target_encoder_dir_name, ENCODER_FILE_NAME)
         except Exception as e:
             raise SensorException(e, sys)
 

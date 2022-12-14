@@ -10,13 +10,10 @@ load_dotenv()
 
 @dataclass
 class EnvironmentVariables:
-    mognoDB_pass = os.getenv("mongoDB_pass")
-
+    MONGO_DB_URL = os.getenv('MONGO_DB_URL')
+    
 env_var = EnvironmentVariables()
 
 # Create connection
-client = pymongo.MongoClient(
-    f"mongodb+srv://hiteshwadhwani1403:{env_var.mognoDB_pass}@ineuron.xskip.mongodb.net/?retryWrites=true&w=majority",
-    tlsCAFile=certifi.where())
-
+client = pymongo.MongoClient(MONGO_DB_URL, tlsCAFile=certifi.where())
 TARGET_COLUMN = 'class'

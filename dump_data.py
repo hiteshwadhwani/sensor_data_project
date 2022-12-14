@@ -8,12 +8,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-mognoDB_pass = os.getenv('mongoDB_pass')
+MONGO_DB_URL = os.getenv('MONGO_DB_URL')
 
 # Create connection
-client = pymongo.MongoClient(
-    f"mongodb+srv://hiteshwadhwani1403:{mognoDB_pass}@ineuron.xskip.mongodb.net/?retryWrites=true&w=majority",
-    tlsCAFile=certifi.where())
+client = pymongo.MongoClient(MONGO_DB_URL, tlsCAFile=certifi.where())
 print(client)
 
 DATA_FILE_PATH = '/config/workspace/aps_failure_training_set1.csv'

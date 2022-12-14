@@ -107,44 +107,46 @@ class Datavalidation:
 
     def initiate_data_validation(self) -> artifact_entity.DataValidationArtifact:
         try:
+            logging.info("importing Base Dataset for validation")
             base_df = pd.read_csv(self.data_validation_config.base_file_path)
             base_df.replace({'na':np.NAN}, inplace=True)
 
             base_df = self.drop_missing_columns(df=base_df, report_key_name='missing_values_within_base_dataset')
 
+            logging.info("Importing train and test dataframe for validation")
             train_df = pd.read_csv(self.data_ingestion_artifact.train_file_path)
             test_df = pd.read_csv(self.data_ingestion_artifact.test_file_path)
 
             train_df = self.drop_missing_columns(df=train_df, report_key_name='missing_values_within_train_dataaset')
             test_df = self.drop_missing_columns(df=test_df, report_key_name='missing_values_within_test_dataset')
 
-            # convert columns type to float excluding target column
+            logging.info(f"convert columns type to float excluding target column : {TARGET_COLUMN}")
             exclude_columns= [TARGET_COLUMN]
             base_df = utils.convert_columns_float(df=base_df, exclude_columns=exclude_columns)
             train_df = utils.convert_columns_float(df=train_df, exclude_columns=exclude_columns)
             test_df = utils.convert_columns_float(df=test_df, exclude_columns=exclude_columns)
 
-            # Check if base_df and current_df has same number of columns
+            logging.info("Checking if base_df and current_df has same number of columns")
             train_df_column_status = self.is_required_columns_exist(base_df=base_df, current_df=train_df, report_key_name='missing_columns_within_train_dataset')
             test_df_column_status = self.is_required_columns_exist(base_df=base_df, current_df=test_df, report_key_name='missing_columns_within_test_dataset')
 
-            # Checking data drift within train and test dataset
+            logging.info("Checking data drift within train and test dataset")
             if test_df_column_status:
                 self.data_drift(base_df=base_df, current_df=test_df, report_key_name='data_drift_within_test_dataset')
             
             if train_df_column_status:
                 self.data_drift(base_df=base_df, current_df=train_df, report_key_name='data_drift_within_train_dataset')
             
-            # Writing report into yaml file
+            logging.info("Writing report into yaml file")
             utils.create_yaml_file_from_dict(file_path=self.data_validation_config.report_file_path, data=self.validation_error)
 
-            # Creating artifact of data validation
+            logging.info("Ceating artifact of data validation")
             data_validation_artifact = artifact_entity.DataValidationArtifact(report_file_path=self.data_validation_config.report_file_path)
 
+            logging.info(f"data_validation_artifact : {data_validation_artifact}")
 
             # Returning data_validation_artifact
             return data_validation_artifact
-            
         except Exception as e:
             raise SensorException(e, sys)
 
